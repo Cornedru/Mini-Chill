@@ -1,0 +1,9 @@
+{
+	"makefile.launchConfigurations": [
+		{
+			"cwd": "/home/ndehmej/Desktop/Mini-v2",
+			"binaryPath": "/home/ndehmej/Desktop/Mini-v2/minishell",
+			"binaryArgs": []
+		}
+	]
+}

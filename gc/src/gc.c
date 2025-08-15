@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   gc.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oligrien <oligrien@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ndehmej <ndehmej@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 21:09:10 by oligrien          #+#    #+#             */
-/*   Updated: 2025/08/01 23:42:33 by oligrien         ###   ########.fr       */
+/*   Updated: 2025/08/15 22:21:06 by ndehmej          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,42 +75,6 @@ void	gc_free(void *mem)
 		current_ptr = &(*current_ptr)->next;
 	}
 }
-
-/**
- * gc_free - free an allocated memory
- *    and also remove it from the linked list
- *
- * @mem: memory to be freed
- *
- * Return: Nothing.
- */
-/* void	gc_free(void *mem)
-{
-	t_mem	**head;
-	t_mem	*temp;
-
-	head = gc_get_head();
-	if ((*head)->mem == mem)
-	{
-		temp = (*head)->next;
-		gc_free_node(head);
-		*head = temp;
-	}
-	else
-	{
-		temp = *head;
-		while (temp)
-		{
-			if (temp->mem == mem)
-			{
-				(*head)->next = temp->next;
-				gc_free_node(&temp);
-				break;
-			}
-			temp = temp->next;
-		}
-	}
-} */
 
 void	gc_free_array(void **mem)
 {

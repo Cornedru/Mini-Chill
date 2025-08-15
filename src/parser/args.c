@@ -6,7 +6,7 @@
 /*   By: ndehmej <ndehmej@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 10:00:00 by ndehmej           #+#    #+#             */
-/*   Updated: 2025/08/10 05:23:24 by ndehmej          ###   ########.fr       */
+/*   Updated: 2025/08/15 22:13:33 by ndehmej          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,21 @@ char	**merge_args(char **old_args, char **new_args)
 	return (result);
 }
 
+t_ast	*safe_free_ast(t_ast **a, t_ast **b)
+{
+	if (a && *a && (!b || *a != *b))
+	{
+		free_ast(*a);
+		*a = NULL;
+	}
+	if (b && *b)
+	{
+		free_ast(*b);
+		*b = NULL;
+	}
+	return (NULL);
+}
+
 t_ast	*collect_redirections_and_args(t_token **tokens, t_ast **cmd,
 		t_sys *sys)
 {
@@ -62,12 +77,12 @@ t_ast	*collect_redirections_and_args(t_token **tokens, t_ast **cmd,
 		if (is_redirection_token((*tokens)->type))
 		{
 			if (handle_redirection_args(tokens, &redirs, cmd, sys) == -1)
-				return (free_ast(redirs), free_ast(*cmd), NULL);
+				return (safe_free_ast(&redirs, cmd));
 		}
 		else if ((*tokens)->type == TOKEN_WORD)
 		{
 			if (handle_word_args(tokens, cmd, &redirs) == -1)
-				return (free_ast(redirs), free_ast(*cmd), NULL);
+				return (safe_free_ast(&redirs, cmd));
 		}
 		else
 			break ;
