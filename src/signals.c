@@ -6,7 +6,7 @@
 /*   By: ndehmej <ndehmej@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 10:00:00 by ndehmej           #+#    #+#             */
-/*   Updated: 2025/08/16 04:12:33 by ndehmej          ###   ########.fr       */
+/*   Updated: 2025/08/16 04:48:05 by ndehmej          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	setup_signals(void)
 void	sigint_prompt(int sig)
 {
 	(void)sig;
-	g_signal = 130;
+	g_signal = SIG_INTERRUPT;
 	write(1, "\n", 1);
 	rl_on_new_line();
 	rl_replace_line("", 0);

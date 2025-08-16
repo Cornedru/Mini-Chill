@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oligrien <oligrien@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ndehmej <ndehmej@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 22:59:21 by oligrien          #+#    #+#             */
-/*   Updated: 2025/08/09 21:37:39 by oligrien         ###   ########.fr       */
+/*   Updated: 2025/08/16 04:52:28 by ndehmej          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,6 +123,7 @@ static int	init_sys(t_sys **sys, char **envp)
 	(*sys)->token = NULL;
 	(*sys)->ast = NULL;
 	(*sys)->exit = 0;
+	(*sys)->exit_status = 0;
 	return (0);
 }
 

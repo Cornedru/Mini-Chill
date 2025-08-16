@@ -6,7 +6,7 @@
 /*   By: ndehmej <ndehmej@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 21:41:49 by oligrien          #+#    #+#             */
-/*   Updated: 2025/08/16 04:08:09 by ndehmej          ###   ########.fr       */
+/*   Updated: 2025/08/16 05:01:49 by ndehmej          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,7 +128,6 @@ int	shell_loop(t_sys *sys)
 		{
 			sys->exit_status = 130;
 			g_signal = 0;
-			continue ;
 		}
 		if (!line)
 		{
