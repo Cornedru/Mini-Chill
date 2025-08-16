@@ -6,7 +6,7 @@
 /*   By: ndehmej <ndehmej@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 10:00:00 by oligrien          #+#    #+#             */
-/*   Updated: 2025/08/16 04:09:56 by ndehmej          ###   ########.fr       */
+/*   Updated: 2025/08/16 21:57:46 by ndehmej          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,11 +32,7 @@ void	set_signals_prompt(void)
 	act.sa_handler = sigint_prompt;
 	act.sa_flags = 0;
 	sigemptyset(&act.sa_mask);
-	sigaction(SIGINT, &act, NULL);
-	act_quit.sa_handler = sigquit_prompt;
-	act_quit.sa_flags = 0;
-	sigemptyset(&act_quit.sa_mask);
-	sigaction(SIGQUIT, &act_quit, NULL);
+	sigaction(SIGINT, &act, NULL)
 }
 
 void	set_signals_heredoc(void)

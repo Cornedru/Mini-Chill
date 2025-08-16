@@ -6,7 +6,7 @@
 /*   By: ndehmej <ndehmej@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 21:45:56 by oligrien          #+#    #+#             */
-/*   Updated: 2025/08/16 04:11:09 by ndehmej          ###   ########.fr       */
+/*   Updated: 2025/08/16 21:58:49 by ndehmej          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@
 
 # include "../gc/includes/gc.h"
 # include "../libft/includes/libft.h"
-// # include <bits/sigaction.h>
 # include <bits/types/siginfo_t.h>
 # include <ctype.h>
 # include <dirent.h>

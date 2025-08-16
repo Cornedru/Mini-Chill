@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oligrien <oligrien@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ndehmej <ndehmej@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 22:54:16 by oligrien          #+#    #+#             */
-/*   Updated: 2025/08/15 23:51:56 by oligrien         ###   ########.fr       */
+/*   Updated: 2025/08/16 21:44:41 by ndehmej          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static void	left_child(t_ast *node, t_sys *sys, int *pipe_fd)
 	int	status;
 
 	signal(SIGINT, SIG_DFL);
-	signal(SIGQUIT, SIG_DFL);
+	signal(SIGQUIT, SIG_IGN);
 	close(pipe_fd[0]);
 	dup2(pipe_fd[1], STDOUT_FILENO);
 	close(pipe_fd[1]);
@@ -40,7 +40,7 @@ static void	right_child(t_ast *node, t_sys *sys, int *pipe_fd)
 	int	status;
 
 	signal(SIGINT, SIG_DFL);
-	signal(SIGQUIT, SIG_DFL);
+	signal(SIGQUIT, SIG_IGN);
 	close(pipe_fd[1]);
 	if (!contains_heredoc(node->right))
 		dup2(pipe_fd[0], STDIN_FILENO);

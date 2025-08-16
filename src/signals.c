@@ -6,21 +6,11 @@
 /*   By: ndehmej <ndehmej@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 10:00:00 by ndehmej           #+#    #+#             */
-/*   Updated: 2025/08/16 04:48:05 by ndehmej          ###   ########.fr       */
+/*   Updated: 2025/08/16 21:58:22 by ndehmej          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-void	handle_sigquit(int sig)
-{
-	(void)sig;
-	g_signal = SIG_QUIT;
-	write(1, "Quit\n", 5);
-	rl_on_new_line();
-	rl_replace_line("", 0);
-	rl_redisplay();
-}
 
 static void	handle_sigint(int sig)
 {
