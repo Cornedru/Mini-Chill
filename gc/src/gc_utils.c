@@ -6,7 +6,7 @@
 /*   By: ndehmej <ndehmej@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 23:46:30 by oligrien          #+#    #+#             */
-/*   Updated: 2025/08/15 22:21:00 by ndehmej          ###   ########.fr       */
+/*   Updated: 2025/08/16 04:00:39 by ndehmej          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,4 +32,3 @@ void	gc_free_node(t_mem **node)
 	free((*node)->mem);
 	free(*node);
 }
-

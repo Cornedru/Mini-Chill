@@ -6,7 +6,7 @@
 /*   By: ndehmej <ndehmej@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/01 00:46:54 by oligrien          #+#    #+#             */
-/*   Updated: 2025/08/06 15:36:13 by ndehmej          ###   ########.fr       */
+/*   Updated: 2025/08/16 04:08:34 by ndehmej          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,4 +68,13 @@ char	*expand_variable(char *str, int *i, t_sys *sys)
 		return (res);
 	start = *i + 1;
 	return (extract_env_value(str, i, start, sys));
+}
+
+int	heredoc_interrupted(int b)
+{
+	static int	interrupted_status = 0;
+
+	if (b != -1)
+		interrupted_status = b;
+	return (interrupted_status);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ndehmej <ndehmej@student.42.fr>            +#+  +:+       +#+        */
+/*   By: oligrien <oligrien@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 21:53:11 by oligrien          #+#    #+#             */
-/*   Updated: 2025/08/15 23:19:21 by ndehmej          ###   ########.fr       */
+/*   Updated: 2025/08/16 00:03:22 by oligrien         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,8 @@ int	execute_external(t_ast *node, t_sys *sys)
 {
 	char	*cmd_path;
 
+	signal(SIGINT, SIG_DFL);
+	signal(SIGQUIT, SIG_DFL);
 	cmd_path = find_cmd_path(sys, node->args[0]);
 	if (!cmd_path)
 	{
@@ -77,6 +79,21 @@ int	execute_external(t_ast *node, t_sys *sys)
 	gc_free(cmd_path);
 	gc_destroy();
 	exit(126);
+}
+
+static int	exec_wtermsig(int status)
+{
+	if (WTERMSIG(status) == SIGQUIT)
+	{
+		ft_putstr_fd("Quit\n", 2);
+		return (131);
+	}
+	if (WTERMSIG(status) == SIGINT)
+	{
+		ft_putstr_fd("\n", 2);
+		return (130);
+	}
+	return (0);
 }
 
 int	execute_forked_cmd(t_ast *node, t_sys *sys)
@@ -99,5 +116,8 @@ int	execute_forked_cmd(t_ast *node, t_sys *sys)
 			execute_external(node, sys);
 	}
 	waitpid(pid, &status, 0);
+	setup_signals();
+	if (WIFSIGNALED(status))
+		return (exec_wtermsig(status));
 	return (WEXITSTATUS(status));
 }

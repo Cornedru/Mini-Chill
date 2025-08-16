@@ -5,5 +5,8 @@
 			"binaryPath": "/home/ndehmej/Desktop/Mini-v2/minishell",
 			"binaryArgs": []
 		}
-	]
+	],
+	"files.associations": {
+		"sigaction.h": "c"
+	}
 }

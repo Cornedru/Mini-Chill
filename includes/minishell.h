@@ -6,7 +6,7 @@
 /*   By: ndehmej <ndehmej@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 21:45:56 by oligrien          #+#    #+#             */
-/*   Updated: 2025/08/15 21:41:41 by ndehmej          ###   ########.fr       */
+/*   Updated: 2025/08/16 04:11:09 by ndehmej          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,18 @@
 
 # include "../gc/includes/gc.h"
 # include "../libft/includes/libft.h"
+// # include <bits/sigaction.h>
+# include <bits/types/siginfo_t.h>
 # include <ctype.h>
+# include <dirent.h>
 # include <errno.h>
 # include <fcntl.h>
 # include <limits.h>
+# include <pwd.h>
 # include <readline/history.h>
 # include <readline/readline.h>
 # include <signal.h>
+# include <bits/sigaction.h>
 # include <stdarg.h>
 # include <stdbool.h>
 # include <stddef.h>
@@ -36,14 +41,14 @@
 # include <sys/wait.h>
 # include <termios.h>
 # include <unistd.h>
-# include <pwd.h>
-# include <dirent.h>
 
 # define PROMPT "minishell$ "
 # define SIG_NONE 0
 # define SIG_INTERRUPT 1
 # define SIG_QUIT 2
 # define SIG_EOF 3
+# define PROMPT_MODE 0
+# define HEREDOC_MODE 1
 
 # ifndef MAX_VAR_NAME_LEN
 #  define MAX_VAR_NAME_LEN 256
@@ -178,6 +183,15 @@ int								init_shell(t_sys **sys, char **envp);
 
 void							setup_signals(void);
 void							heredoc_sigint_handler(int sig);
+int								is_interactive_interrupt(int set_val);
+void							handle_sigint_interactive(int sig);
+void							handle_sigquit(int sig);
+void							sigint_prompt(int sig);
+void							sigquit_prompt(int sig);
+void							sigint_heredoc(int sig);
+void							set_signals_prompt(void);
+void							set_signals_heredoc(void);
+void							signals_handler(int mode);
 
 // exec.c -----------------------------
 
@@ -292,8 +306,7 @@ char							**allocate_args(int count, t_ast *node);
 int								fill_args_array(t_token **tokens, char **args,
 									int count);
 t_ast							*handle_empty_command(t_ast *redirs);
-char							*get_filename_from_token(
-									t_token *filename_token);
+char							*get_filename_from_t(t_token *filename_token);
 
 // pipeline.c -------------------------
 
@@ -364,6 +377,7 @@ void							free_tokens(t_token *tokens);
 
 t_token							*create_token(t_token_type type, char *value);
 void							add_token(t_token **tokens, t_token *new_token);
+// void							expand_tokens(t_token *tokens, t_sys *sys);
 void							expand_tokens(t_token **tokens_ptr, t_sys *sys);
 int								should_split_token(char *original,
 									char *expanded);

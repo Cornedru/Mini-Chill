@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oligrien <oligrien@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ndehmej <ndehmej@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 10:00:00 by oligrien          #+#    #+#             */
-/*   Updated: 2025/08/13 22:22:54 by oligrien         ###   ########.fr       */
+/*   Updated: 2025/08/16 04:13:19 by ndehmej          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static int	write_heredoc_line(t_heredoc_data *data, char *line, t_sys *sys)
 }
 
 static int	handle_heredoc_line(t_heredoc_data *data, char *line,
-	char *clean_delimiter, t_sys *sys)
+	t_sys *sys, char *clean_delimiter)
 {
 	if (ft_strcmp(line, clean_delimiter) == 0)
 	{
@@ -41,52 +41,61 @@ static int	handle_heredoc_line(t_heredoc_data *data, char *line,
 	return (0);
 }
 
-static int	handle_eof_or_interrupt(char *line, char *clean_delimiter)
+void	heredoc_sigint_handler(int sig)
 {
-	if (heredoc_interrupted(-1))
+	(void)sig;
+	write(1, "^C", 3);
+	g_signal = SIGINT;
+	heredoc_interrupted(1);
+	rl_replace_line("", 0);
+	rl_done = 1;
+	ioctl(STDIN_FILENO, TIOCSTI, "\n");
+}
+
+static int	heredoc_read_line(t_heredoc_data *data, t_sys *sys,
+	char *clean_delimiter)
+{
+	char	*line;
+
+	line = readline("> ");
+	if (g_signal == SIGINT)
 	{
 		if (line)
 			free(line);
-		gc_free(clean_delimiter);
 		return (-1);
 	}
 	if (!line)
 	{
-		ft_putstr_fd("minishell: warning:", 2);
-		ft_putstr_fd("here-document delimited by end-of-file\n", 2);
-		gc_free(clean_delimiter);
-		return (0);
+		write(1, "warning: heredoc delimited by end-of-file\n", 43);
+		return (1);
 	}
-	return (-2);
+	if (handle_heredoc_line(data, line, sys, clean_delimiter))
+		return (1);
+	return (0);
 }
 
 int	read_heredoc_content(t_heredoc_data *data, char *delimiter, t_sys *sys)
 {
-	char	*line;
 	char	*clean_delimiter;
-	int		status;
+	int		ret;
 
 	clean_delimiter = remove_quotes(delimiter);
-	heredoc_interrupted(0);
+	g_signal = 0;
+	rl_catch_signals = 0;
+	signals_handler(HEREDOC_MODE);
 	while (1)
 	{
-		line = readline("> ");
-		status = handle_eof_or_interrupt(line, clean_delimiter);
-		if (status != -2)
-			return (status);
-		if (handle_heredoc_line(data, line, clean_delimiter, sys))
+		ret = heredoc_read_line(data, sys, clean_delimiter);
+		if (ret == -1)
+		{
+			gc_free(clean_delimiter);
+			sys->last_status = 130;
+			return (-1);
+		}
+		if (ret == 1)
 		{
 			gc_free(clean_delimiter);
 			return (0);
 		}
 	}
-}
-
-int	heredoc_interrupted(int b)
-{
-	static int	interrupted_status = 0;
-
-	if (b != -1)
-		interrupted_status = b;
-	return (interrupted_status);
 }

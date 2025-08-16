@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser_utils.c                                     :+:      :+:    :+:   */
+/*   parser_utils2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ndehmej <ndehmej@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 10:00:00 by oligrien          #+#    #+#             */
-/*   Updated: 2025/08/06 01:30:42 by ndehmej          ###   ########.fr       */
+/*   Updated: 2025/08/16 04:09:09 by ndehmej          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ t_ast	*handle_empty_command(t_ast *redirs)
 	return (cmd);
 }
 
-char	*get_filename_from_token(t_token *filename_token)
+char	*get_filename_from_t(t_token *filename_token)
 {
 	char	*filename;
 

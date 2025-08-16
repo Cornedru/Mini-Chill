@@ -6,7 +6,7 @@
 /*   By: ndehmej <ndehmej@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 21:41:49 by oligrien          #+#    #+#             */
-/*   Updated: 2025/08/15 23:19:27 by ndehmej          ###   ########.fr       */
+/*   Updated: 2025/08/16 04:08:09 by ndehmej          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,9 @@ static int	process_line(char *line, t_sys *sys)
 	t_ast	*ast;
 	int		status;
 
+	add_history(line);
+	signal(SIGINT, SIG_IGN);
+	signal(SIGQUIT, SIG_IGN);
 	if (!line || !*line)
 		return (0);
 	ast = parse_line(line, sys);
@@ -117,20 +120,23 @@ int	shell_loop(t_sys *sys)
 
 	while (!sys->exit)
 	{
+		setup_signals();
+		signals_handler(PROMPT_MODE);
+		is_interactive_interrupt(0);
+		line = readline(PROMPT);
 		if (g_signal == SIG_INTERRUPT)
 		{
 			sys->exit_status = 130;
-			g_signal = SIG_NONE;
+			g_signal = 0;
+			continue ;
 		}
-		line = readline(PROMPT);
 		if (!line)
 		{
 			ft_putstr_fd("exit\n", 1);
 			break ;
 		}
 		if (*line)
-			add_history(line);
-		process_line(line, sys);
+			process_line(line, sys);
 		free(line);
 	}
 	return (sys->exit_status);

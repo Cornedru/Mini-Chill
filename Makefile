@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: oligrien <oligrien@student.42.fr>          +#+  +:+       +#+         #
+#    By: ndehmej <ndehmej@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/25 03:00:00 by oligrien          #+#    #+#              #
-#    Updated: 2025/08/13 22:04:47 by oligrien         ###   ########.fr        #
+#    Updated: 2025/08/16 04:11:41 by ndehmej          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,6 +28,7 @@ PRS_DIR      = parser
 
 # Source Files *************************************************************** #
 SRCS_FILES =	./main.c \
+				./signals_utils.c \
 				./signals.c \
 				$(EXEC_DIR)/env_array.c \
 				$(EXEC_DIR)/pipe_utils.c \
